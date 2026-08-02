@@ -25,7 +25,7 @@ export interface IUser extends Document {
   provider: "credentials" | "google";
   emailVerified?: Date | null;
   phone?: string;
-  addresses: IAddress[];
+  addresses: Types.DocumentArray<IAddress>;
   wishlist: Types.ObjectId[];
   isActive: boolean;
   resetPasswordToken?: string;

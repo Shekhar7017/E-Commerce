@@ -101,24 +101,27 @@ export const categorySchema = z.object({
 });
 export type CategoryInput = z.infer<typeof categorySchema>;
 
-export const couponSchema = z
-  .object({
-    code: z.string().trim().min(3).max(30),
-    description: z.string().trim().max(300).optional(),
-    discountType: z.enum(["percentage", "flat"]),
-    discountValue: z.coerce.number().positive(),
-    maxDiscountAmount: z.coerce.number().positive().optional(),
-    minOrderValue: z.coerce.number().min(0).default(0),
-    usageLimit: z.coerce.number().int().min(0).default(0),
-    perUserLimit: z.coerce.number().int().min(1).default(1),
-    isActive: z.boolean().default(true),
-    startsAt: z.coerce.date(),
-    expiresAt: z.coerce.date(),
-  })
-  .refine((data) => data.expiresAt > data.startsAt, {
+export const couponBaseSchema = z.object({
+  code: z.string().trim().min(3).max(30),
+  description: z.string().trim().max(300).optional(),
+  discountType: z.enum(["percentage", "flat"]),
+  discountValue: z.coerce.number().positive(),
+  maxDiscountAmount: z.coerce.number().positive().optional(),
+  minOrderValue: z.coerce.number().min(0).default(0),
+  usageLimit: z.coerce.number().int().min(0).default(0),
+  perUserLimit: z.coerce.number().int().min(1).default(1),
+  isActive: z.boolean().default(true),
+  startsAt: z.coerce.date(),
+  expiresAt: z.coerce.date(),
+});
+
+export const couponSchema = couponBaseSchema.refine(
+  (data) => data.expiresAt > data.startsAt,
+  {
     message: "Expiry date must be after the start date",
     path: ["expiresAt"],
-  });
+  }
+);
 export type CouponInput = z.infer<typeof couponSchema>;
 
 export const reviewSchema = z.object({

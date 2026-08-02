@@ -1,16 +1,24 @@
 import Razorpay from "razorpay";
 import crypto from "crypto";
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID as string,
-  key_secret: process.env.RAZORPAY_KEY_SECRET as string,
-});
+let razorpayClient: Razorpay | null = null;
+
+function getRazorpayClient(): Razorpay {
+  if (razorpayClient) return razorpayClient;
+
+  razorpayClient = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID as string,
+    key_secret: process.env.RAZORPAY_KEY_SECRET as string,
+  });
+
+  return razorpayClient;
+}
 
 export async function createRazorpayOrder(
   amountInPaise: number,
   receipt: string
 ) {
-  return razorpay.orders.create({
+  return getRazorpayClient().orders.create({
     amount: amountInPaise,
     currency: "INR",
     receipt,
@@ -53,5 +61,3 @@ export function verifyRazorpayWebhookSignature(
   if (expectedBuf.length !== providedBuf.length) return false;
   return crypto.timingSafeEqual(expectedBuf, providedBuf);
 }
-
-export default razorpay;
