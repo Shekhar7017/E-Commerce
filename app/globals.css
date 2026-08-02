@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --toast-bg: #ffffff;
+  --toast-fg: #0b0f0d;
+  --toast-border: #ede9e0;
+}
+
+.dark {
+  --toast-bg: #121611;
+  --toast-fg: #f7f5f0;
+  --toast-border: #2a2e2b;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ivory text-ink dark:bg-ink dark:text-ivory font-body antialiased;
+    font-feature-settings: "ss01" on, "ss02" on;
+  }
+
+  ::selection {
+    @apply bg-emerald-500/30;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-emerald-bright ring-offset-2 ring-offset-ivory dark:ring-offset-ink;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Signature element: a tailor's measuring-tape divider with tick marks */
+  .tape-divider {
+    @apply relative h-px w-full text-gold/60;
+    background-image: repeating-linear-gradient(
+      90deg,
+      currentColor 0px,
+      currentColor 1px,
+      transparent 1px,
+      transparent 12px
+    );
+  }
+
+  .tape-divider--dense {
+    background-image: repeating-linear-gradient(
+      90deg,
+      currentColor 0px,
+      currentColor 1px,
+      transparent 1px,
+      transparent 6px
+    );
+  }
+
+  .glass-panel {
+    @apply bg-ivory/70 dark:bg-graphite/60 backdrop-blur-glass border border-ivory/30 dark:border-ivory/10 shadow-glass;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-emerald px-6 py-3 text-sm font-medium tracking-wide text-ivory transition-all duration-300 hover:bg-emerald-600 hover:shadow-emerald active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 dark:border-ivory/20 px-6 py-3 text-sm font-medium tracking-wide text-ink dark:text-ivory transition-all duration-300 hover:border-emerald hover:text-emerald active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .label-eyebrow {
+    @apply text-xs font-medium uppercase tracking-widest2 text-emerald dark:text-emerald-300;
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden bg-ink/5 dark:bg-ivory/5 rounded-md;
+  }
+
+  .skeleton::after {
+    content: "";
+    @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-ink/10 dark:via-ivory/10 to-transparent;
+    background-size: 200% 100%;
+  }
+}
