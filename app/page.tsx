@@ -1,22 +1,64 @@
 import type { Metadata } from "next";
+import { Hero } from "@/components/shop/hero";
+import { CategoryShowcase } from "@/components/shop/category-showcase";
+import { ProductRail } from "@/components/shop/product-rail";
+import { listProducts } from "@/lib/services/product.service";
+import { listCategories } from "@/lib/services/category.service";
+import type { ProductCardData } from "@/components/shop/product-card";
 
 export const metadata: Metadata = {
   title: "Curated Luxury, Delivered",
   alternates: { canonical: "/" },
 };
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+function toCardData(items: unknown[]): ProductCardData[] {
+  return JSON.parse(JSON.stringify(items));
+}
+
+export default async function HomePage() {
+  const [categories, featured, newArrivals, bestsellers] = await Promise.all([
+    listCategories(false),
+    listProducts({ featured: true, limit: 8 }),
+    listProducts({ newArrival: true, limit: 8, sort: "newest" }),
+    listProducts({ bestseller: true, limit: 8, sort: "bestselling" }),
+  ]);
+
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
-      <p className="label-eyebrow mb-6">L&apos;Atelier Haute Boutique</p>
-      <h1 className="font-display text-5xl md:text-7xl tracking-tightest leading-[1.05] max-w-4xl">
-        Every stitch, considered.
-      </h1>
-      <p className="mt-6 max-w-xl text-ink/70 dark:text-ivory/70 text-lg">
-        The full storefront — collections, catalog, and checkout — arrives in
-        the next build phase.
-      </p>
-      <div className="tape-divider mt-12 max-w-md" />
+    <main>
+      <Hero />
+
+      <CategoryShowcase categories={JSON.parse(JSON.stringify(categories))} />
+
+      <ProductRail
+        eyebrow="The Selection"
+        title="Featured Pieces"
+        products={toCardData(featured.items)}
+        viewAllHref="/shop?featured=true"
+      />
+
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="tape-divider" />
+      </div>
+
+      <ProductRail
+        eyebrow="Just Arrived"
+        title="New Arrivals"
+        products={toCardData(newArrivals.items)}
+        viewAllHref="/shop?newArrival=true"
+      />
+
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="tape-divider" />
+      </div>
+
+      <ProductRail
+        eyebrow="Most Loved"
+        title="Bestsellers"
+        products={toCardData(bestsellers.items)}
+        viewAllHref="/shop?bestseller=true"
+      />
     </main>
   );
 }

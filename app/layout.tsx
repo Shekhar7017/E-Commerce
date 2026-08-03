@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
 import { Providers } from "@/components/providers";
+import { SiteChrome } from "@/components/layout/site-chrome";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -74,7 +75,9 @@ export default function RootLayout({
       <body
         className={`${fraunces.variable} ${inter.variable} ${plexMono.variable}`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <SiteChrome>{children}</SiteChrome>
+        </Providers>
       </body>
     </html>
   );
