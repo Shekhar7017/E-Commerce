@@ -126,7 +126,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     size={14}
                     className={
                       i < Math.round(product.ratingAverage)
-                        ? "fill-gold text-gold"
+                        ? "fill-gold-deep text-gold-deep dark:fill-gold dark:text-gold"
                         : "text-ink/20 dark:text-ivory/20"
                     }
                   />

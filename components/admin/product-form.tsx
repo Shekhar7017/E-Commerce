@@ -219,6 +219,7 @@ export function ProductForm({
                 type="button"
                 onClick={() => remove(index)}
                 className="shrink-0 text-ink/40 hover:text-red-500"
+                aria-label="Remove specification row"
               >
                 <Trash2 size={16} />
               </button>
@@ -253,7 +254,7 @@ export function ProductForm({
               className="flex items-center gap-1 rounded-full bg-ink/5 dark:bg-ivory/10 px-3 py-1 text-xs"
             >
               {tag}
-              <button type="button" onClick={() => removeTag(i)}>
+              <button type="button" onClick={() => removeTag(i)} aria-label={`Remove tag ${tag}`}>
                 <Trash2 size={10} />
               </button>
             </span>

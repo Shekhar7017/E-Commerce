@@ -118,7 +118,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
 
         {product.ratingCount > 0 && (
           <div className="flex items-center gap-1">
-            <Star size={12} className="fill-gold text-gold" />
+            <Star size={12} className="fill-gold-deep text-gold-deep dark:fill-gold dark:text-gold" />
             <span className="text-xs text-ink/60 dark:text-ivory/60">
               {product.ratingAverage.toFixed(1)} ({product.ratingCount})
             </span>

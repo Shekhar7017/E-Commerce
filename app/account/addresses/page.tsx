@@ -144,7 +144,7 @@ export default function AddressBookPage() {
                     <button
                       onClick={() => handleSetDefault(addr._id)}
                       aria-label="Set default"
-                      className="text-ink/30 hover:text-gold"
+                      className="text-ink/30 hover:text-gold-deep dark:hover:text-gold"
                     >
                       <Star size={14} />
                     </button>

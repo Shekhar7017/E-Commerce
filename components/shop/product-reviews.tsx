@@ -59,7 +59,7 @@ export function ProductReviews({ productId }: { productId: string }) {
                   size={14}
                   className={
                     i < review.rating
-                      ? "fill-gold text-gold"
+                      ? "fill-gold-deep text-gold-deep dark:fill-gold dark:text-gold"
                       : "text-ink/20 dark:text-ivory/20"
                   }
                 />

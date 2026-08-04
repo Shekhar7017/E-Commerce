@@ -86,12 +86,14 @@ export default function AdminCategoriesPage() {
                 <Link
                   href={`/admin/categories/${cat._id}/edit`}
                   className="text-ink/50 hover:text-emerald-500"
+                  aria-label={`Edit ${cat.name}`}
                 >
                   <Pencil size={15} />
                 </Link>
                 <button
                   onClick={() => handleDelete(cat._id)}
                   className="text-ink/50 hover:text-red-500"
+                  aria-label={`Delete ${cat.name}`}
                 >
                   <Trash2 size={15} />
                 </button>

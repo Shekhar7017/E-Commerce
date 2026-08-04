@@ -118,7 +118,7 @@ export default function AdminReviewsPage() {
                       key={i}
                       size={13}
                       className={
-                        i < review.rating ? "fill-gold text-gold" : "text-ink/20 dark:text-ivory/20"
+                        i < review.rating ? "fill-gold-deep text-gold-deep dark:fill-gold dark:text-gold" : "text-ink/20 dark:text-ivory/20"
                       }
                     />
                   ))}

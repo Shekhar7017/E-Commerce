@@ -69,7 +69,7 @@ export default async function AdminDashboardPage() {
 
         <div className="rounded-lg border border-ink/10 dark:border-ivory/10 p-6">
           <div className="flex items-center gap-2 mb-6">
-            <AlertTriangle size={16} className="text-gold" />
+            <AlertTriangle size={16} className="text-gold-deep dark:text-gold" />
             <h2 className="font-display text-lg">Low Stock Alerts</h2>
           </div>
           {lowStock.length === 0 ? (

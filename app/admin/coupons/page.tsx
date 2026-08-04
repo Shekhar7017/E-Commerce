@@ -104,12 +104,14 @@ export default function AdminCouponsPage() {
                       <Link
                         href={`/admin/coupons/${coupon._id}/edit`}
                         className="text-ink/50 hover:text-emerald-500"
+                        aria-label={`Edit ${coupon.code}`}
                       >
                         <Pencil size={15} />
                       </Link>
                       <button
                         onClick={() => handleDelete(coupon._id)}
                         className="text-ink/50 hover:text-red-500"
+                        aria-label={`Delete ${coupon.code}`}
                       >
                         <Trash2 size={15} />
                       </button>
