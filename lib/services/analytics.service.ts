@@ -77,32 +77,43 @@ export async function getDashboardSummary() {
 export async function getRevenueTrend(months = 6) {
   await connectDB();
   const now = new Date();
+  const rangeStart = new Date(now.getFullYear(), now.getMonth() - (months - 1), 1);
+
+  // Single aggregation grouped by year-month, instead of one query per
+  // month in a loop - months-1 fewer database round-trips.
+  const agg = await Order.aggregate([
+    {
+      $match: {
+        status: { $nin: ["cancelled"] },
+        createdAt: { $gte: rangeStart },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          year: { $year: "$createdAt" },
+          month: { $month: "$createdAt" },
+        },
+        revenue: { $sum: "$total" },
+        orders: { $sum: 1 },
+      },
+    },
+  ]);
+
+  const byKey = new Map(
+    agg.map((row) => [`${row._id.year}-${row._id.month}`, row])
+  );
+
   const results: { month: string; revenue: number; orders: number }[] = [];
-
   for (let i = months - 1; i >= 0; i--) {
-    const start = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    const end = new Date(now.getFullYear(), now.getMonth() - i + 1, 0, 23, 59, 59);
-
-    const agg = await Order.aggregate([
-      {
-        $match: {
-          status: { $nin: ["cancelled"] },
-          createdAt: { $gte: start, $lte: end },
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          revenue: { $sum: "$total" },
-          orders: { $sum: 1 },
-        },
-      },
-    ]);
+    const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const key = `${date.getFullYear()}-${date.getMonth() + 1}`;
+    const row = byKey.get(key);
 
     results.push({
-      month: start.toLocaleDateString("en-IN", { month: "short", year: "2-digit" }),
-      revenue: agg[0]?.revenue ?? 0,
-      orders: agg[0]?.orders ?? 0,
+      month: date.toLocaleDateString("en-IN", { month: "short", year: "2-digit" }),
+      revenue: row?.revenue ?? 0,
+      orders: row?.orders ?? 0,
     });
   }
 

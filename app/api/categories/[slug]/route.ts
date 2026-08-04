@@ -20,7 +20,11 @@ export async function GET(
       maxPrice: searchParams.get("maxPrice") ? Number(searchParams.get("maxPrice")) : undefined,
     });
 
-    return apiSuccess({ category, ...products });
+    return apiSuccess(
+      { category, ...products },
+      200,
+      { cache: "public, s-maxage=30, stale-while-revalidate=60" }
+    );
   } catch (error) {
     return handleApiError(error);
   }

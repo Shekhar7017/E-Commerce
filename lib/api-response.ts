@@ -10,8 +10,16 @@ export class ApiError extends Error {
   }
 }
 
-export function apiSuccess<T>(data: T, status = 200) {
-  return NextResponse.json({ success: true, data }, { status });
+export function apiSuccess<T>(
+  data: T,
+  status = 200,
+  options?: { cache?: string }
+) {
+  const response = NextResponse.json({ success: true, data }, { status });
+  if (options?.cache) {
+    response.headers.set("Cache-Control", options.cache);
+  }
+  return response;
 }
 
 export function apiError(message: string, status = 400) {

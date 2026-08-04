@@ -23,7 +23,9 @@ export async function GET(request: NextRequest) {
     };
 
     const result = await listProducts(params);
-    return apiSuccess(result);
+    return apiSuccess(result, 200, {
+      cache: "public, s-maxage=30, stale-while-revalidate=60",
+    });
   } catch (error) {
     return handleApiError(error);
   }

@@ -124,27 +124,38 @@ export async function listCustomers(params: {
     User.countDocuments(filter),
   ]);
 
-  const withStats = await Promise.all(
-    items.map(async (user) => {
-      const [orderCount, totalSpentAgg] = await Promise.all([
-        Order.countDocuments({ user: user._id, status: { $ne: "cancelled" } }),
-        Order.aggregate([
-          {
-            $match: {
-              user: user._id,
-              status: { $nin: ["cancelled"] },
-            },
-          },
-          { $group: { _id: null, total: { $sum: "$total" } } },
-        ]),
-      ]);
-      return {
-        ...user,
-        orderCount,
-        totalSpent: totalSpentAgg[0]?.total ?? 0,
-      };
-    })
+  // Single aggregation for order stats across just this page's users,
+  // instead of 2 queries per user (previously up to 200 queries for a
+  // 100-row page).
+  const userIds = items.map((u) => u._id);
+  const statsAgg = await Order.aggregate([
+    {
+      $match: {
+        user: { $in: userIds },
+        status: { $nin: ["cancelled"] },
+      },
+    },
+    {
+      $group: {
+        _id: "$user",
+        orderCount: { $sum: 1 },
+        totalSpent: { $sum: "$total" },
+      },
+    },
+  ]);
+
+  const statsByUserId = new Map(
+    statsAgg.map((row) => [row._id.toString(), row])
   );
+
+  const withStats = items.map((user) => {
+    const stats = statsByUserId.get(user._id.toString());
+    return {
+      ...user,
+      orderCount: stats?.orderCount ?? 0,
+      totalSpent: stats?.totalSpent ?? 0,
+    };
+  });
 
   return { items: withStats, meta: paginationMeta(totalItems, page, limit) };
 }

@@ -12,7 +12,11 @@ export async function GET(
       product._id.toString(),
       product.category._id.toString()
     );
-    return apiSuccess({ product, related });
+    return apiSuccess(
+      { product, related },
+      200,
+      { cache: "public, s-maxage=30, stale-while-revalidate=60" }
+    );
   } catch (error) {
     return handleApiError(error);
   }
