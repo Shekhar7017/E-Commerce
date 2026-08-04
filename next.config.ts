@@ -29,11 +29,15 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   reactStrictMode: true,
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "res.cloudinary.com" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
+      // Demo/seed data only (scripts/seed.ts) - safe to remove once real
+      // Cloudinary product images are in place.
+      { protocol: "https", hostname: "picsum.photos" },
     ],
     formats: ["image/avif", "image/webp"],
   },

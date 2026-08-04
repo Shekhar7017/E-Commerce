@@ -70,11 +70,24 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "L'Atelier Haute Boutique",
+    url: siteUrl,
+    logo: `${siteUrl}/logo.png`,
+    sameAs: [],
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${fraunces.variable} ${inter.variable} ${plexMono.variable}`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         <Providers>
           <SiteChrome>{children}</SiteChrome>
         </Providers>

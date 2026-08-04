@@ -1,0 +1,29 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: latelier-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: latelier
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: latelier-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/latelier
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodb-data:
