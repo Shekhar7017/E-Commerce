@@ -59,12 +59,36 @@ npm run dev
 Visit http://localhost:3000. Sign in to `/admin` with the seeded admin
 credentials to manage the catalog.
 
-### 6. Type-check, lint, and build
+### 6. Type-check, lint, test, and build
 ```bash
 npm run typecheck
 npm run lint
+npm test               # unit tests - fast, no DB required
+npm run test:integration  # DB-backed tests - downloads a real mongod on first run
 npm run build
 ```
+
+## Testing
+
+- **`npm test`** — unit tests (`lib/__tests__/*.test.ts`). Pure functions and
+  security-critical logic with no database dependency: currency/slug/discount
+  formatting, order number generation, Razorpay signature verification
+  (accepts valid signatures, rejects forged/tampered/malformed ones without
+  throwing), and Zod schema edge cases across every form in the app.
+- **`npm run test:integration`** — DB-backed tests (`lib/__tests__/integration/`)
+  against a real MongoDB spun up in-memory via `mongodb-memory-server`.
+  Covers coupon validation (min order value, expiry, usage limits,
+  discount capping) and stock management (decrement/restore, batch
+  rollback on partial failure, concurrent-decrement oversell prevention).
+  **First run downloads a real `mongod` binary from `fastdl.mongodb.org`** —
+  needs normal internet access; works in GitHub Actions CI and any typical
+  dev machine.
+
+Writing the stock-management integration tests surfaced a real bug, since
+fixed: `decrementStock` used to read-check-write stock non-atomically per
+item in a loop, which allowed both a concurrent-oversell race and a silent
+partial decrement on batch failure. It now uses an atomic conditional
+update per item with explicit rollback if any item in the batch fails.
 
 ## Running with Docker
 
@@ -156,11 +180,22 @@ wrong for this kind of data. Routes with a dynamic segment or `searchParams`
 
 - Never tested against a real MongoDB Atlas cluster, real Razorpay keys, or
   real Cloudinary credentials — verified structurally (`tsc`, `eslint`,
-  `next build`) but not end-to-end against live services or with real traffic.
+  `next build`, unit tests) but not end-to-end against live services or
+  with real traffic.
+- Integration tests exist and are written correctly, but could not be
+  execution-verified in the environment this project was built in (no
+  internet access to `fastdl.mongodb.org` to download the test MongoDB
+  binary) — review their first CI run before trusting them blindly.
 - Seed script uses picsum.photos placeholder images; swap for real Cloudinary
   uploads before production use.
-- No automated tests (unit/integration/e2e) — the CI pipeline currently
-  verifies type safety, lint rules, dependency audit, and build success only.
+- No end-to-end (browser-level) tests — unit and integration coverage exists
+  for the business logic layer, but nothing drives an actual checkout
+  through a real browser yet (e.g. Playwright).
+- Stock decrement is now atomic per-item with rollback (see Testing above),
+  but is not wrapped in a MongoDB multi-document transaction — that would
+  need a replica-set-mode MongoDB deployment (Atlas provides this by
+  default; a bare standalone `mongod`, including the one in
+  `docker-compose.yml`, does not support transactions).
 - Loading states exist at the route level (skeletons) but not yet as granular
   per-section Suspense boundaries on the PLP/PDP.
 
