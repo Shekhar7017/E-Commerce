@@ -47,6 +47,7 @@ function LoginForm() {
             {...register("email")}
             type="email"
             placeholder="Email address"
+            aria-label="Email address"
             className="w-full rounded-full border border-ink/15 dark:border-ivory/20 bg-transparent px-5 py-3 text-sm focus:border-emerald-500"
           />
           {errors.email && (
@@ -59,6 +60,7 @@ function LoginForm() {
             {...register("password")}
             type="password"
             placeholder="Password"
+            aria-label="Password"
             className="w-full rounded-full border border-ink/15 dark:border-ivory/20 bg-transparent px-5 py-3 text-sm focus:border-emerald-500"
           />
           {errors.password && (

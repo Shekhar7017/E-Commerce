@@ -74,26 +74,26 @@ export function CategoryForm({
       </div>
 
       <div>
-        <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+        <label htmlFor="name" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
           Name
         </label>
-        <input {...register("name")} className="input-field" />
+        <input id="name" {...register("name")} className="input-field" />
         {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
       </div>
 
       <div>
-        <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+        <label htmlFor="description" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
           Description
         </label>
-        <textarea {...register("description")} rows={3} className="input-field resize-none" />
+        <textarea id="description" {...register("description")} rows={3} className="input-field resize-none" />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="displayOrder" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Display Order
           </label>
-          <input type="number" {...register("displayOrder")} className="input-field" />
+          <input id="displayOrder" type="number" {...register("displayOrder")} className="input-field" />
         </div>
         <label className="flex items-center gap-2 text-sm mt-6">
           <input type="checkbox" {...register("isActive")} /> Active

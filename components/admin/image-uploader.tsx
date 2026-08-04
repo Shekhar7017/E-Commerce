@@ -115,6 +115,7 @@ export function ImageUploader({
             type="file"
             accept="image/jpeg,image/png,image/webp,image/avif"
             multiple={multiple}
+            aria-label="Upload image"
             className="hidden"
             onChange={(e) => handleFiles(e.target.files)}
           />

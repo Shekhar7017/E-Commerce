@@ -153,6 +153,7 @@ export default function CheckoutPage() {
             <div className="space-y-3">
               <button
                 onClick={() => setPaymentMethod("razorpay")}
+                aria-pressed={paymentMethod === "razorpay"}
                 className={cn(
                   "w-full text-left rounded-lg border p-4 transition-colors",
                   paymentMethod === "razorpay"
@@ -167,6 +168,7 @@ export default function CheckoutPage() {
               </button>
               <button
                 onClick={() => setPaymentMethod("cod")}
+                aria-pressed={paymentMethod === "cod"}
                 className={cn(
                   "w-full text-left rounded-lg border p-4 transition-colors",
                   paymentMethod === "cod"

@@ -71,19 +71,19 @@ export default function ContactPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input name="name" required placeholder="Your name" className="input-field" />
+          <input name="name" required placeholder="Your name" aria-label="Your name" className="input-field" />
           <input
             name="email"
             type="email"
             required
-            placeholder="Your email"
+            placeholder="Your email" aria-label="Your email"
             className="input-field"
           />
           <textarea
             name="message"
             required
             rows={5}
-            placeholder="How can we help?"
+            placeholder="How can we help?" aria-label="How can we help?"
             className="input-field resize-none"
           />
           <button type="submit" disabled={isSubmitting} className="btn-primary w-full">

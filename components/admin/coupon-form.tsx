@@ -75,74 +75,74 @@ export function CouponForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-xl">
       <div>
-        <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+        <label htmlFor="code" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
           Coupon Code
         </label>
-        <input {...register("code")} className="input-field uppercase" />
+        <input id="code" {...register("code")} className="input-field uppercase" />
         {errors.code && <p className="mt-1 text-xs text-red-500">{errors.code.message}</p>}
       </div>
 
       <div>
-        <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+        <label htmlFor="description" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
           Description
         </label>
-        <input {...register("description")} className="input-field" />
+        <input id="description" {...register("description")} className="input-field" />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="discountType" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Discount Type
           </label>
-          <select {...register("discountType")} className="input-field">
+          <select id="discountType" {...register("discountType")} className="input-field">
             <option value="percentage">Percentage</option>
             <option value="flat">Flat Amount</option>
           </select>
         </div>
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="discountValue" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Discount Value
           </label>
-          <input type="number" {...register("discountValue")} className="input-field" />
+          <input id="discountValue" type="number" {...register("discountValue")} className="input-field" />
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="maxDiscountAmount" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Max Discount (₹)
           </label>
-          <input type="number" {...register("maxDiscountAmount")} className="input-field" />
+          <input id="maxDiscountAmount" type="number" {...register("maxDiscountAmount")} className="input-field" />
         </div>
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="minOrderValue" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Min Order Value (₹)
           </label>
-          <input type="number" {...register("minOrderValue")} className="input-field" />
+          <input id="minOrderValue" type="number" {...register("minOrderValue")} className="input-field" />
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="usageLimit" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Total Usage Limit (0 = unlimited)
           </label>
-          <input type="number" {...register("usageLimit")} className="input-field" />
+          <input id="usageLimit" type="number" {...register("usageLimit")} className="input-field" />
         </div>
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="perUserLimit" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Per Customer Limit
           </label>
-          <input type="number" {...register("perUserLimit")} className="input-field" />
+          <input id="perUserLimit" type="number" {...register("perUserLimit")} className="input-field" />
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="startsAt" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Starts On
           </label>
-          <input
+          <input id="startsAt"
             type="date"
             defaultValue={toDateInputValue(initialData?.startsAt)}
             {...register("startsAt")}
@@ -150,10 +150,10 @@ export function CouponForm({
           />
         </div>
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="expiresAt" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Expires On
           </label>
-          <input
+          <input id="expiresAt"
             type="date"
             defaultValue={toDateInputValue(initialData?.expiresAt)}
             {...register("expiresAt")}

@@ -96,15 +96,15 @@ export default function AddressBookPage() {
           onSubmit={handleSubmit(onSubmit)}
           className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-lg border border-ink/10 dark:border-ivory/10 p-6"
         >
-          <input {...register("label")} placeholder="Label (Home, Work)" className="input-field" />
-          <input {...register("fullName")} placeholder="Full name" className="input-field" />
-          <input {...register("phone")} placeholder="Phone" className="input-field" />
-          <input {...register("line1")} placeholder="Address line 1" className="input-field" />
-          <input {...register("line2")} placeholder="Address line 2 (optional)" className="input-field" />
-          <input {...register("city")} placeholder="City" className="input-field" />
-          <input {...register("state")} placeholder="State" className="input-field" />
-          <input {...register("postalCode")} placeholder="Postal code" className="input-field" />
-          <input {...register("country")} placeholder="Country" defaultValue="India" className="input-field" />
+          <input {...register("label")} placeholder="Label (Home, Work)" aria-label="Label (Home, Work)" className="input-field" />
+          <input {...register("fullName")} placeholder="Full name" aria-label="Full name" className="input-field" />
+          <input {...register("phone")} placeholder="Phone" aria-label="Phone" className="input-field" />
+          <input {...register("line1")} placeholder="Address line 1" aria-label="Address line 1" className="input-field" />
+          <input {...register("line2")} placeholder="Address line 2 (optional)" aria-label="Address line 2 (optional)" className="input-field" />
+          <input {...register("city")} placeholder="City" aria-label="City" className="input-field" />
+          <input {...register("state")} placeholder="State" aria-label="State" className="input-field" />
+          <input {...register("postalCode")} placeholder="Postal code" aria-label="Postal code" className="input-field" />
+          <input {...register("country")} placeholder="Country" aria-label="Country" defaultValue="India" className="input-field" />
 
           <div className="sm:col-span-2 flex items-center gap-2">
             <input type="checkbox" {...register("isDefault")} id="isDefault" />

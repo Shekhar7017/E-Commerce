@@ -72,6 +72,7 @@ function ResetPasswordForm() {
             {...register("password")}
             type="password"
             placeholder="New password"
+            aria-label="New password"
             className="w-full rounded-full border border-ink/15 dark:border-ivory/20 bg-transparent px-5 py-3 text-sm focus:border-emerald-500"
           />
           {errors.password && (

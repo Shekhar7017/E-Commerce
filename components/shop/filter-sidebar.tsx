@@ -72,6 +72,7 @@ export function FilterSidebar({ categories, brands }: FilterSidebarProps) {
           <button
             key={cat._id}
             onClick={() => updateParam("category", cat._id)}
+            aria-pressed={activeCategory === cat._id}
             className={cn(
               "block text-sm text-left w-full py-1 transition-colors",
               activeCategory === cat._id
@@ -124,6 +125,7 @@ export function FilterSidebar({ categories, brands }: FilterSidebarProps) {
             <button
               key={brand}
               onClick={() => updateParam("brand", brand)}
+              aria-pressed={activeBrand === brand}
               className={cn(
                 "block text-sm text-left w-full py-1 transition-colors",
                 activeBrand === brand

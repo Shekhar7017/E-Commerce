@@ -67,6 +67,7 @@ export function AddressSelector({
         <button
           key={addr._id}
           onClick={() => onSelect(addr._id)}
+          aria-pressed={selectedId === addr._id}
           className={cn(
             "w-full text-left rounded-lg border p-4 transition-colors",
             selectedId === addr._id

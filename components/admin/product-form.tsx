@@ -110,34 +110,34 @@ export function ProductForm({
 
       <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="sm:col-span-2">
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="name" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Product Name
           </label>
-          <input {...register("name")} className="input-field" />
+          <input id="name" {...register("name")} className="input-field" />
           {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
         </div>
 
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="sku" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             SKU
           </label>
-          <input {...register("sku")} className="input-field" />
+          <input id="sku" {...register("sku")} className="input-field" />
           {errors.sku && <p className="mt-1 text-xs text-red-500">{errors.sku.message}</p>}
         </div>
 
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="brand" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Brand
           </label>
-          <input {...register("brand")} className="input-field" />
+          <input id="brand" {...register("brand")} className="input-field" />
           {errors.brand && <p className="mt-1 text-xs text-red-500">{errors.brand.message}</p>}
         </div>
 
         <div className="sm:col-span-2">
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="category" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Category
           </label>
-          <select {...register("category")} className="input-field">
+          <select id="category" {...register("category")} className="input-field">
             {categories.map((cat) => (
               <option key={cat._id} value={cat._id}>
                 {cat.name}
@@ -147,17 +147,17 @@ export function ProductForm({
         </div>
 
         <div className="sm:col-span-2">
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="shortDescription" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Short Description
           </label>
-          <input {...register("shortDescription")} className="input-field" />
+          <input id="shortDescription" {...register("shortDescription")} className="input-field" />
         </div>
 
         <div className="sm:col-span-2">
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="description" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Full Description
           </label>
-          <textarea {...register("description")} rows={5} className="input-field resize-none" />
+          <textarea id="description" {...register("description")} rows={5} className="input-field resize-none" />
           {errors.description && (
             <p className="mt-1 text-xs text-red-500">{errors.description.message}</p>
           )}
@@ -166,28 +166,28 @@ export function ProductForm({
 
       <section className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="price" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Price (₹)
           </label>
-          <input type="number" step="1" {...register("price")} className="input-field" />
+          <input id="price" type="number" step="1" {...register("price")} className="input-field" />
         </div>
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="discountPercent" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Discount %
           </label>
-          <input type="number" {...register("discountPercent")} className="input-field" />
+          <input id="discountPercent" type="number" {...register("discountPercent")} className="input-field" />
         </div>
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="stock" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Stock
           </label>
-          <input type="number" {...register("stock")} className="input-field" />
+          <input id="stock" type="number" {...register("stock")} className="input-field" />
         </div>
         <div>
-          <label className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
+          <label htmlFor="lowStockThreshold" className="text-xs uppercase tracking-wide text-ink/50 dark:text-ivory/50 mb-1 block">
             Low Stock Alert
           </label>
-          <input type="number" {...register("lowStockThreshold")} className="input-field" />
+          <input id="lowStockThreshold" type="number" {...register("lowStockThreshold")} className="input-field" />
         </div>
       </section>
 
@@ -208,11 +208,13 @@ export function ProductForm({
               <input
                 {...register(`specifications.${index}.key`)}
                 placeholder="Material"
+                aria-label={`Specification ${index + 1} name`}
                 className="input-field"
               />
               <input
                 {...register(`specifications.${index}.value`)}
                 placeholder="100% Silk"
+                aria-label={`Specification ${index + 1} value`}
                 className="input-field"
               />
               <button
@@ -234,6 +236,7 @@ export function ProductForm({
           <input
             value={tagInput}
             onChange={(e) => setTagInput(e.target.value)}
+            aria-label="Add a tag"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
