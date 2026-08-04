@@ -184,18 +184,37 @@ export async function decrementStock(
   items: { product: string; quantity: number }[]
 ) {
   await connectDB();
+
+  const applied: { product: string; quantity: number }[] = [];
+
   for (const item of items) {
-    const product = await Product.findById(item.product);
-    if (!product) continue;
-    if (product.stock < item.quantity) {
+    // Atomic conditional decrement: only succeeds if stock is currently
+    // sufficient, so concurrent checkouts can't both succeed against the
+    // same last unit (classic oversell race).
+    const updated = await Product.findOneAndUpdate(
+      { _id: item.product, stock: { $gte: item.quantity } },
+      { $inc: { stock: -item.quantity, soldCount: item.quantity } },
+      { new: true }
+    );
+
+    if (!updated) {
+      // Roll back everything already decremented in this batch before
+      // failing, so a partial failure never leaves stock silently
+      // understated for products that succeeded earlier in the loop.
+      if (applied.length > 0) {
+        await restoreStock(applied);
+      }
+
+      const product = await Product.findById(item.product);
+      const label = product?.name ?? "This item";
+      const available = product?.stock ?? 0;
       throw new ApiError(
-        `${product.name} has insufficient stock. Only ${product.stock} left.`,
+        `${label} has insufficient stock. Only ${available} left.`,
         409
       );
     }
-    product.stock -= item.quantity;
-    product.soldCount += item.quantity;
-    await product.save();
+
+    applied.push(item);
   }
 }
 
