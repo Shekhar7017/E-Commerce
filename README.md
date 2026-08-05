@@ -65,6 +65,7 @@ npm run typecheck
 npm run lint
 npm test               # unit tests - fast, no DB required
 npm run test:integration  # DB-backed tests - downloads a real mongod on first run
+npm run test:e2e       # browser e2e tests - needs a seeded DB + Playwright browsers
 npm run build
 ```
 
@@ -83,6 +84,20 @@ npm run build
   **First run downloads a real `mongod` binary from `fastdl.mongodb.org`** —
   needs normal internet access; works in GitHub Actions CI and any typical
   dev machine.
+- **`npm run test:e2e`** — browser end-to-end tests (`e2e/*.spec.ts`) via
+  Playwright. Covers public page navigation, route-protection redirects,
+  registration/login, catalog browsing, and the full cart → checkout →
+  order journey (Cash on Delivery, which needs no payment gateway
+  credentials; a Razorpay-path test exists and auto-skips unless
+  `RAZORPAY_KEY_ID` is set in the test environment). **Requires a running
+  app pointed at a seeded database** (`npm run seed` first) and, on first
+  run, `npx playwright install --with-deps` to download browser binaries.
+  **These were written but could not be execution-verified in the
+  environment this project was built in** — no browser binary was
+  downloadable there (`cdn.playwright.dev` unreachable) and no live
+  database/credentials were available either. Treat them as a solid
+  starting point to run and debug in your own environment, not as
+  something already proven to pass.
 
 Writing the stock-management integration tests surfaced a real bug, since
 fixed: `decrementStock` used to read-check-write stock non-atomically per
@@ -188,9 +203,9 @@ wrong for this kind of data. Routes with a dynamic segment or `searchParams`
   binary) — review their first CI run before trusting them blindly.
 - Seed script uses picsum.photos placeholder images; swap for real Cloudinary
   uploads before production use.
-- No end-to-end (browser-level) tests — unit and integration coverage exists
-  for the business logic layer, but nothing drives an actual checkout
-  through a real browser yet (e.g. Playwright).
+- End-to-end (browser-level) tests exist (`e2e/*.spec.ts`, Playwright) but,
+  like the integration tests, could not be execution-verified in this
+  environment — run them yourself before trusting them.
 - Stock decrement is now atomic per-item with rollback (see Testing above),
   but is not wrapped in a MongoDB multi-document transaction — that would
   need a replica-set-mode MongoDB deployment (Atlas provides this by
